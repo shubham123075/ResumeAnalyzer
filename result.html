@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Intelligence Report</title>
+
+    <style>
+        :root {
+            --ink: #111827;
+            --muted: #5b6475;
+            --line: #dce3ee;
+            --panel: #ffffff;
+            --accent: #0f766e;
+            --accent-soft: #d9f6f1;
+            --blue: #2563eb;
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(220, 227, 238, 0.8);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+        }
+
+        .nav-inner {
+            width: min(1160px, calc(100% - 40px));
+            min-height: 70px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--accent), var(--blue));
+        }
+
+        .back-link {
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: var(--muted);
+            background: #ffffff;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .report-shell {
+            color: #ffffff;
+            background:
+                linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(8, 47, 73, 0.96)),
+                radial-gradient(circle at 78% 18%, rgba(20, 184, 166, 0.24), transparent 34%);
+            padding: 72px 0;
+        }
+
+        .report-inner {
+            width: min(1160px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .kicker {
+            display: inline-flex;
+            margin-bottom: 16px;
+            padding: 8px 12px;
+            border: 1px solid rgba(45, 212, 191, 0.28);
+            border-radius: 999px;
+            color: #ccfbf1;
+            background: rgba(20, 184, 166, 0.14);
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 220px;
+            gap: 34px;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 26px 70px rgba(0, 0, 0, 0.24);
+        }
+
+        h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: clamp(36px, 6vw, 64px);
+            line-height: 1;
+        }
+
+        .summary {
+            margin: 20px 0 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .score {
+            justify-self: end;
+            width: 190px;
+            height: 190px;
+            display: grid;
+            place-items: center;
+            border: 12px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+
+        .score strong {
+            display: block;
+            font-size: 46px;
+            line-height: 1;
+        }
+
+        .score span {
+            display: block;
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .meta-card {
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .meta-card strong {
+            display: block;
+            font-size: 26px;
+            overflow-wrap: anywhere;
+        }
+
+        .meta-card span {
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .content {
+            width: min(1160px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 52px 0 76px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            padding: 24px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .wide { grid-column: span 2; }
+
+        h2 {
+            margin: 0 0 14px;
+            color: var(--ink);
+            font-size: 22px;
+        }
+
+        p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .tag-list li {
+            color: #115e59;
+            background: var(--accent-soft);
+            border: 1px solid rgba(15, 118, 110, 0.18);
+            border-radius: 999px;
+            padding: 8px 11px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .list {
+            margin: 0;
+            padding-left: 20px;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .section-checks {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .section-checks li {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--line);
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .section-checks li:last-child { border-bottom: 0; }
+
+        .section-checks span {
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        .footer {
+            padding: 30px 0 40px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+            background: #ffffff;
+        }
+
+        .footer strong {
+            display: block;
+            margin-top: 8px;
+            color: var(--ink);
+            font-size: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .hero,
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .score {
+                justify-self: start;
+            }
+
+            .meta {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .wide {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-inner,
+            .report-inner,
+            .content {
+                width: min(100% - 28px, 1160px);
+            }
+
+            .hero {
+                padding: 24px;
+            }
+
+            .meta {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="nav">
+        <div class="nav-inner">
+            <a class="brand" href="/">
+                <span class="brand-mark">AI</span>
+                <span>Resume Reviewer</span>
+            </a>
+            <a class="back-link" href="/">Analyze Another Resume</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="report-shell">
+            <div class="report-inner">
+                <div class="hero">
+                    <div>
+                        <span class="kicker">{{ result.verdict }}</span>
+                        <h1>Resume Intelligence Report</h1>
+                        <p class="summary">{{ result.summary }}</p>
+                    </div>
+                    <div class="score">
+                        <div>
+                            <strong>{{ result.score }}</strong>
+                            <span>ATS Score / 100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="meta">
+                    <div class="meta-card">
+                        <strong>{{ result.skills|length }}</strong>
+                        <span>Skills detected</span>
+                    </div>
+                    <div class="meta-card">
+                        <strong>{{ result.metrics_found }}</strong>
+                        <span>Impact numbers</span>
+                    </div>
+                    <div class="meta-card">
+                        <strong>{{ result.action_verbs_found }}</strong>
+                        <span>Action verbs</span>
+                    </div>
+                    <div class="meta-card">
+                        <strong>{{ uploaded_file or "Resume" }}</strong>
+                        <span>Analyzed file</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="grid">
+                <article class="card wide">
+                    <h2>Focus Areas</h2>
+                    <ul class="tag-list">
+                        {% for area in result.focus_areas %}
+                        <li>{{ area }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <h2>Sections Audit</h2>
+                    <ul class="section-checks">
+                        {% for section, present in result.sections.items() %}
+                        <li>{{ section.title() }} <span>{{ "Present" if present else "Missing" }}</span></li>
+                        {% endfor %}
+                    </ul>
+                </article>
+
+                <article class="card wide">
+                    <h2>Skills Detected</h2>
+                    {% if result.skills %}
+                    <ul class="tag-list">
+                        {% for skill in result.skills %}
+                        <li>{{ skill }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>No matching skills were detected. Add a clear skills section to improve visibility.</p>
+                    {% endif %}
+                </article>
+
+                <article class="card">
+                    <h2>Strengths</h2>
+                    <ul class="list">
+                        {% for item in result.strengths %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+
+                <article class="card">
+                    <h2>Weaknesses</h2>
+                    <ul class="list">
+                        {% for item in result.weaknesses %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+
+                <article class="card wide">
+                    <h2>Priority Suggestions</h2>
+                    <ul class="list">
+                        {% for item in result.suggestions %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>AI Resume Reviewer - Professional resume analysis for modern job applications.</span>
+        <strong>This project was made by Shubham Kumar, CS Student at DSEU.</strong>
+    </footer>
+</body>
+</html>
